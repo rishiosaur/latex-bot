@@ -56,12 +56,12 @@ app.post("/", async (req, res) => {
     background: "#FFFFFF"
   }).catch(err => res.send(`Error converting to PNG: ${err}`))
 
-  const image = await jimp.read('./output/typesettedImage.png').catch(err => res.send("Error reading PNG."));
+  const image = await jimp.read('./output/typesettedImage.png').catch(err => console.log(err));
 
   await image.cover(image.getWidth() * 1.5, image.getHeight() * 1.5).writeAsync("./output/paddedImage.png").catch(err => res.send(err))
 
   bolt.client.files.upload({
-    token: "xoxb-2210535565-1043445900352-ib6MLPfgj9XKEm0L12D0rd72",
+    token: process.env.BOT_TOKEN,
     title: "Typesetted Equation!",
     file: require("fs").createReadStream("./output/paddedImage.png"),
     channels: req.body.channel_id
