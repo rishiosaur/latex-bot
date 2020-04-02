@@ -37,6 +37,11 @@ app.post("/", async (req, res) => {
     return;
   }
 
+  await require("fs").unlinkSync("./output/typesettedSvg.svg")
+  await require("fs").unlinkSync("./output/paddedImage.png")
+  await require("fs").unlinkSync("./output/img.png")
+  
+
   const math = req.body.text
 
   const typesettedData = await mjAPI.typeset({
