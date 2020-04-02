@@ -36,7 +36,7 @@ app.post("/", async (req, res) => {
     console.log("whitespace error")
     await res.send("whitespace error").catch(err => console.log(err))
     await res.end().catch(err => console.log(err))
-    return
+    return;
   }
 
   const math = req.body.text
@@ -47,7 +47,7 @@ app.post("/", async (req, res) => {
     svg: true,
   }).catch(err => {
     res.send(`Error(s): ${err.join(", ")}`)
-    return 
+    return;
   })
 
   await svgToImg.from(typesettedData.svg).toJpeg({
