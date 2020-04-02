@@ -55,17 +55,17 @@ app.post("/", async (req, res) => {
   
   await require("fs").writeFileSync("./output/typesettedSvg.svg", typesettedData.svg)
 
-  await sharp("./output/typesettedSvg.svg").png({compressionLevel: 0, progressive: true}).negate().extend({
-    top: 10,
-    bottom: 10,
-    left: 10,
-    right: 10,
+  await sharp("./output/typesettedSvg.svg", { density: 700  }).png({compressionLevel: 0, progressive: true}).negate().extend({
+    top: 20,
+    bottom: 20,
+    left: 20,
+    right: 20,
     background: { r: 255, g: 255, b: 255, alpha: 1 }
   }).toFile('./output/img.png')
 
   const image = await jimp.read('./output/img.png').catch(err => console.log(err));
 
-  await image.cover(image.getWidth() * 1.5, image.getHeight() * 1.5).writeAsync("./output/paddedImage.png").catch(err => res.send(err))
+  await image.cover(image.getWidth() * 0.25, image.getHeight() * 0.25).writeAsync("./output/paddedImage.png").catch(err => res.send(err))
 
   bolt.client.files.upload({
     token: process.env.BOT_TOKEN,
