@@ -7,6 +7,8 @@ const fetch = require('node-fetch');
 const { App } = require("@slack/bolt");
 const jimp = require('jimp')
 require("dotenv").config()
+const svg2png = require("svg2png");
+const sharp = require("sharp")
 
 mjAPI.config({
   MathJax: {
@@ -45,25 +47,30 @@ app.post("/", async (req, res) => {
     math: math,
     format: "TeX",
     svg: true,
+    ex: 13,
   }).catch(err => {
     res.send(`Error(s): ${err.join(", ")}`)
     return;
   })
+  
+  await require("fs").writeFileSync("./output/typesettedSvg.svg", typesettedData.svg)
 
-  await svgToImg.from(typesettedData.svg).toJpeg({
-    path: "./output/typesettedImage.png",
-    quality: 1,
-    background: "#FFFFFF"
-  }).catch(err => res.send(`Error converting to PNG: ${err}`))
+  await sharp("./output/typesettedSvg.svg").png({compressionLevel: 0, progressive: true}).negate().extend({
+    top: 10,
+    bottom: 10,
+    left: 10,
+    right: 10,
+    background: { r: 255, g: 255, b: 255, alpha: 1 }
+  }).toFile('./output/img.png')
 
-  const image = await jimp.read('./output/typesettedImage.png').catch(err => console.log(err));
+  const image = await jimp.read('./output/img.png').catch(err => console.log(err));
 
   await image.cover(image.getWidth() * 1.5, image.getHeight() * 1.5).writeAsync("./output/paddedImage.png").catch(err => res.send(err))
 
   bolt.client.files.upload({
     token: process.env.BOT_TOKEN,
     title: "Typesetted Equation!",
-    file: require("fs").createReadStream("./output/paddedImage.png"),
+    file: await require("fs").readFileSync("./output/paddedImage.png"),
     channels: req.body.channel_id
   }).catch(err => res.send(`Error uploading file: ${err}`))
   res.end()

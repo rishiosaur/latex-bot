@@ -8,6 +8,7 @@
     "@slack/bolt": "^2.0.0",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "canvg": "^3.0.6",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "got": "^10.7.0",
@@ -16,8 +17,10 @@
     "mathjax-node-svg2png": "^2.0.0",
     "node-fetch": "^2.6.0",
     "request-promise-native": "^1.0.8",
+    "sharp": "^0.25.2",
     "string-tokenizer": "^0.0.8",
     "svg-to-img": "^2.0.9",
+    "svg2png": "^4.1.1",
     "url-regex": "^5.0.0"
   },
   "devDependencies": {
