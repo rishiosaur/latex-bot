@@ -1,13 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const svgToImg = require("svg-to-img");
 var mjAPI = require("mathjax-node");
-const axios = require("axios");
-const fetch = require('node-fetch');
 const { App } = require("@slack/bolt");
 const jimp = require('jimp')
 require("dotenv").config()
-const svg2png = require("svg2png");
 const sharp = require("sharp")
 
 mjAPI.config({
