@@ -35,8 +35,6 @@ async function postUsrMsg(user, text, channel, res) {
   await res.end()
 }
 
-const isOdd = num => num % 2 === 0;
-
 function stripEndQuotes(s) {
   return s.replace("\u201c", "").replace("\u201d", "");
 }
