@@ -1,7 +1,7 @@
 {
   "name": "latex-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "author": "Rishi Kothari <itsrishikothari@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -16,5 +16,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+
   }
 }

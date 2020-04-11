@@ -21,13 +21,16 @@ const bolt = new App({
 
 const PORT = process.env.PORT || 3600
 
+app.listen(PORT)
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
 
-app.post("/", async (req, res) => {
+app.post('/', async (req, res) => {
+
   res.send(`Your request to parse \`"${req.body.text}"\` has been received.`)
 
   if(req.body.text === "") {
@@ -68,17 +71,20 @@ app.post("/", async (req, res) => {
 
   await image.cover(image.getWidth() * 0.25, image.getHeight() * 0.25).writeAsync("./output/paddedImage.png").catch(err => res.send(err))
 
-  bolt.client.files.upload({
+  await bolt.client.files.upload({
     token: process.env.BOT_TOKEN,
     title: "Typesetted Equation!",
     file: await require("fs").readFileSync("./output/paddedImage.png"),
     channels: req.body.channel_id
-  }).catch(err => res.send(`Error uploading file: ${err}`))
+  })
+
+  let text = `I've typesetted the LaTeX equation \`"${req.body.text}"\` using KaTeX. This equation was sent by: <@${req.body.user_id}>`
+
+  await bolt.client.chat.postMessage({
+    channel: req.body.channel_id,
+    text: text,
+    token: process.env.BOT_TOKEN
+  })
+
   res.end()
 })
-
-app.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`)
-});
-
-
