@@ -12,10 +12,11 @@
     "jimp": "^0.10.0",
     "mathjax-node": "^2.1.1",
     "request-promise-native": "^1.0.8",
-    "sharp": "^0.25.2"
+    "sharp": "^0.25.2",
+    "nodemon": "^2.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    
   },
   "scripts": {
     "start": "nodemon server.js"
